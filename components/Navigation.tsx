@@ -15,60 +15,97 @@ type Props = {
 const views: { id: AppView; label: string; german: string }[] = [
   {
     id: "dashboard",
-    label: "Dashboard",
+    label: "Home",
     german: "Zentrale",
   },
   {
     id: "transactions",
-    label: "Transactions",
+    label: "Log",
     german: "Buchung",
   },
   {
     id: "budgets",
-    label: "Budgets",
+    label: "Limits",
     german: "Rahmen",
   },
   {
     id: "recovery",
-    label: "Recovery",
+    label: "Plan",
     german: "Tilgung",
   },
   {
     id: "analysis",
-    label: "Analysis",
+    label: "Data",
     german: "Analyse",
   },
 ];
 
 export default function Navigation({ activeView, onViewChange }: Props) {
   return (
-    <nav className="sticky top-0 z-30 -mx-4 border-b border-[rgba(250,243,224,0.18)] bg-[#000000]/85 px-4 py-3 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-6xl gap-2 overflow-x-auto">
-        {views.map((view) => {
-          const isActive = activeView === view.id;
+    <>
+      <nav className="hidden border-b border-[rgba(245,245,247,0.12)] bg-[#000000]/88 px-4 py-3 backdrop-blur-2xl md:block">
+        <div className="mx-auto flex max-w-6xl gap-2">
+          {views.map((view) => {
+            const isActive = activeView === view.id;
 
-          return (
-            <button
-              key={view.id}
-              onClick={() => onViewChange(view.id)}
-              className={`min-w-fit rounded-full border px-4 py-3 text-left transition ${
-                isActive
-                  ? "border-[#FAF3E0] bg-[#FAF3E0] text-[#000000]"
-                  : "border-[rgba(250,243,224,0.18)] bg-[#000000] text-[#F8F8F8] hover:border-[#FAF3E0]"
-              }`}
-            >
-              <span className="block text-sm font-semibold">{view.label}</span>
-              <span
-                className={`mt-1 block text-[10px] uppercase tracking-[0.22em] ${
-                  isActive ? "text-[#000000]/70" : "text-[#A3A3A3]"
+            return (
+              <button
+                key={view.id}
+                onClick={() => onViewChange(view.id)}
+                className={`rounded-2xl border px-5 py-3 text-left transition ${
+                  isActive
+                    ? "border-[#F5EFE1] bg-[#F5EFE1] text-[#000000]"
+                    : "border-[rgba(245,245,247,0.14)] bg-[#050505] text-[#F5F5F7] hover:border-[rgba(245,239,225,0.55)]"
                 }`}
               >
-                {view.german}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-    </nav>
+                <span className="block text-sm font-semibold tracking-[-0.02em]">
+                  {view.label}
+                </span>
+
+                <span
+                  className={`mt-1 block text-[10px] uppercase tracking-[0.22em] ${
+                    isActive ? "text-[#000000]/60" : "text-[#8E8E93]"
+                  }`}
+                >
+                  {view.german}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </nav>
+
+      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[rgba(245,245,247,0.12)] bg-[#000000]/88 px-3 pb-[calc(env(safe-area-inset-bottom)+10px)] pt-2 backdrop-blur-2xl md:hidden">
+        <div className="mx-auto grid max-w-md grid-cols-5 gap-1 rounded-[28px] border border-[rgba(245,245,247,0.10)] bg-[#050505] p-1">
+          {views.map((view) => {
+            const isActive = activeView === view.id;
+
+            return (
+              <button
+                key={view.id}
+                onClick={() => onViewChange(view.id)}
+                className={`rounded-[22px] px-2 py-2 text-center transition ${
+                  isActive
+                    ? "bg-[#F5EFE1] text-[#000000]"
+                    : "text-[#8E8E93] hover:text-[#F5F5F7]"
+                }`}
+              >
+                <span className="block text-[12px] font-semibold leading-tight tracking-[-0.02em]">
+                  {view.label}
+                </span>
+
+                <span
+                  className={`mt-0.5 block text-[8px] uppercase tracking-[0.16em] ${
+                    isActive ? "text-[#000000]/55" : "text-[#6E6E73]"
+                  }`}
+                >
+                  {view.german}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </nav>
+    </>
   );
 }

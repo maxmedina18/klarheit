@@ -113,20 +113,20 @@ export default function Dashboard() {
   }
 
   return (
-    <main className="min-h-screen bg-[#000000] text-[#F8F8F8]">
+    <main className="min-h-screen bg-[#000000] pb-28 text-[#F5F5F7] md:pb-0">
       <Navigation activeView={activeView} onViewChange={setActiveView} />
 
-      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-6">
+      <div className="mx-auto flex max-w-6xl flex-col gap-5 px-4 py-5 sm:px-6 md:gap-6 md:py-8">
         <header className="border-b border-[rgba(250,243,224,0.18)] pb-5">
           <p className="text-xs uppercase tracking-[0.35em] text-[#FAF3E0]">
             Klarheit v1
           </p>
 
-          <h1 className="mt-3 text-4xl font-semibold tracking-tight text-[#F8F8F8]">
+          <h1 className="mt-3 max-w-3xl text-[40px] font-semibold leading-[0.95] tracking-[-0.055em] text-[#F5F5F7] sm:text-5xl md:text-6xl">
             Personal Finance Cockpit
           </h1>
 
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-[#A3A3A3]">
+          <p className="mt-4 max-w-2xl text-[15px] leading-6 text-[#8E8E93] md:text-base">
             Track income, expenses, card usage, spending ratios, savings rate,
             budgets, and recovery decisions with ruthless clarity.
           </p>

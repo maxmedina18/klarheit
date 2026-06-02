@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <body style="margin:0;background:#111;color:white;font-family:system-ui;">
+    <canvas id="canvas" width="1024" height="1024"></canvas>
+    <br />
+    <button onclick="downloadIcon(512)">Download 512</button>
+    <button onclick="downloadIcon(192)">Download 192</button>
+    <button onclick="downloadIcon(180)">Download 180</button>
+
+    <script>
+      function draw(size = 1024) {
+        const canvas = document.getElementById("canvas");
+        canvas.width = size;
+        canvas.height = size;
+
+        const ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, size, size);
+
+        const gradient = ctx.createLinearGradient(0, 0, size, size);
+        gradient.addColorStop(0, "#050505");
+        gradient.addColorStop(1, "#000000");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, size, size);
+
+        ctx.fillStyle = "#F5EFE1";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.font = `600 ${Math.floor(
+          size * 0.34
+        )}px -apple-system, BlinkMacSystemFont, Helvetica Neue, Arial, sans-serif`;
+
+        ctx.fillText("K", size / 2, size * 0.48);
+
+        ctx.strokeStyle = "#9A0075";
+        ctx.lineWidth = Math.max(5, size * 0.012);
+        ctx.lineCap = "round";
+        ctx.beginPath();
+        ctx.moveTo(size * 0.39, size * 0.67);
+        ctx.lineTo(size * 0.61, size * 0.67);
+        ctx.stroke();
+      }
+
+      function downloadIcon(size) {
+        draw(size);
+
+        const canvas = document.getElementById("canvas");
+        const link = document.createElement("a");
+
+        if (size === 512) {
+          link.download = "icon-512.png";
+        } else if (size === 192) {
+          link.download = "icon-192.png";
+        } else {
+          link.download = "apple-touch-icon.png";
+        }
+
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      }
+
+      draw(1024);
+    </script>
+  </body>
+</html>

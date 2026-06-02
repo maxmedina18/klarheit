@@ -1,21 +1,55 @@
 @import "tailwindcss";
 
+:root {
+  --background: #000000;
+  --surface: #050505;
+  --surface-elevated: #0a0a0a;
+  --foreground: #f5f5f7;
+  --muted: #8e8e93;
+  --muted-strong: #c7c7cc;
+  --cream: #f5efe1;
+  --border: rgba(245, 245, 247, 0.12);
+  --border-strong: rgba(245, 245, 247, 0.22);
+  --accent: #f5efe1;
+  --danger: #ff453a;
+  --warning: #ffd60a;
+  --success: #30d158;
+}
+
 html {
-  background: #000000;
+  background: var(--background);
   color-scheme: dark;
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
 }
 
 body {
-  background: #000000;
   overscroll-behavior: none;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "SF Pro Text",
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    sans-serif;
+  letter-spacing: -0.02em;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@supports (padding: max(0px)) {
-  body {
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
-  }
+* {
+  box-sizing: border-box;
 }
 
 button,
@@ -35,33 +69,38 @@ textarea {
   font-size: 16px;
 }
 
-:root {
-  --background: #000000;
-  --foreground: #f8f8f8;
-  --cream: #faf3e0;
-  --muted: #a3a3a3;
-  --border: rgba(250, 243, 224, 0.18);
-  --card: rgba(248, 248, 248, 0.045);
+/* Kill the old heavy/serif look and make Tailwind weights feel Apple-like */
+.font-semibold {
+  font-weight: 560;
 }
 
-html,
-body {
-  background: var(--background);
-  color: var(--foreground);
-  min-height: 100%;
+.font-bold {
+  font-weight: 650;
 }
 
-body {
-  font-family: Georgia, "Times New Roman", serif;
+.font-extrabold {
+  font-weight: 700;
 }
 
-input,
-select,
-textarea,
-button {
-  font-family: inherit;
+/* Better mobile safe areas */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
 }
 
-* {
-  box-sizing: border-box;
+/* Cleaner selection */
+::selection {
+  background: rgba(245, 239, 225, 0.22);
+  color: #ffffff;
+}
+
+/* Hide ugly horizontal scrollbars but preserve scroll */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
