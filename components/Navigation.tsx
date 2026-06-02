@@ -4,6 +4,7 @@ export type AppView =
   | "dashboard"
   | "transactions"
   | "budgets"
+  | "cards"
   | "recovery"
   | "analysis";
 
@@ -27,6 +28,11 @@ const views: { id: AppView; label: string; german: string }[] = [
     id: "budgets",
     label: "Limits",
     german: "Rahmen",
+  },
+  {
+    id: "cards",
+    label: "Cards",
+    german: "Karten",
   },
   {
     id: "recovery",
@@ -76,7 +82,7 @@ export default function Navigation({ activeView, onViewChange }: Props) {
       </nav>
 
       <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[rgba(245,245,247,0.12)] bg-[#000000]/88 px-3 pb-[calc(env(safe-area-inset-bottom)+8px)] pt-2 backdrop-blur-2xl md:hidden">
-        <div className="mx-auto grid max-w-md grid-cols-5 gap-1 rounded-[26px] border border-[rgba(245,245,247,0.10)] bg-[#050505] p-1">
+        <div className="mx-auto grid max-w-md grid-cols-6 gap-1 rounded-[26px] border border-[rgba(245,245,247,0.10)] bg-[#050505] p-1">
           {views.map((view) => {
             const isActive = activeView === view.id;
 
@@ -84,18 +90,18 @@ export default function Navigation({ activeView, onViewChange }: Props) {
               <button
                 key={view.id}
                 onClick={() => onViewChange(view.id)}
-                className={`rounded-[22px] px-2 py-2 text-center transition ${
+                className={`rounded-[20px] px-1.5 py-2 text-center transition ${
                   isActive
                     ? "bg-[#F5EFE1] text-[#000000]"
                     : "text-[#8E8E93] hover:text-[#F5F5F7]"
                 }`}
               >
-                <span className="block text-[12px] font-semibold leading-tight tracking-[-0.02em]">
+                <span className="block text-[11px] font-semibold leading-tight tracking-[-0.02em]">
                   {view.label}
                 </span>
 
                 <span
-                  className={`mt-0.5 block text-[8px] uppercase tracking-[0.16em] ${
+                  className={`mt-0.5 block text-[7px] uppercase tracking-[0.14em] ${
                     isActive ? "text-[#000000]/55" : "text-[#6E6E73]"
                   }`}
                 >

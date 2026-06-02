@@ -24,6 +24,7 @@ import BudgetLimits from "./BudgetLimits";
 import MonthSelector from "./MonthSelector";
 import Navigation, { AppView } from "./Navigation";
 import RecoveryProgress from "./RecoveryProgress";
+import CardTracker from "./CardTracker";
 
 export default function Dashboard() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -64,7 +65,9 @@ export default function Dashboard() {
   function updateTransaction(updatedTransaction: Transaction) {
     setTransactions((current) =>
       current.map((transaction) =>
-        transaction.id === updatedTransaction.id ? updatedTransaction : transaction
+        transaction.id === updatedTransaction.id
+          ? updatedTransaction
+          : transaction
       )
     );
 
@@ -117,8 +120,8 @@ export default function Dashboard() {
       <Navigation activeView={activeView} onViewChange={setActiveView} />
 
       <div className="ios-safe-top mx-auto flex max-w-6xl flex-col gap-5 px-4 pb-5 sm:px-6 md:gap-6 md:py-8">
-        <header className="border-b border-[rgba(250,243,224,0.18)] pb-5">
-          <p className="text-xs uppercase tracking-[0.35em] text-[#FAF3E0]">
+        <header className="border-b border-[rgba(245,245,247,0.12)] pb-5">
+          <p className="text-xs uppercase tracking-[0.35em] text-[#F5EFE1]">
             Klarheit v1
           </p>
 
@@ -173,6 +176,8 @@ export default function Dashboard() {
         {activeView === "budgets" && (
           <BudgetLimits transactions={monthlyTransactions} />
         )}
+
+        {activeView === "cards" && <CardTracker />}
 
         {activeView === "recovery" && (
           <div className="flex flex-col gap-6">
@@ -360,245 +365,155 @@ function ActionDashboard({
   }
 
   return (
-    <section className="rounded-3xl border border-[rgba(250,243,224,0.18)] bg-[rgba(248,248,248,0.045)] p-5 shadow-2xl shadow-black/40">
+    <section className="rounded-[28px] border border-[rgba(245,245,247,0.12)] bg-[#050505] p-5 shadow-2xl shadow-black/40">
       <div className="mb-5">
-        <p className="text-xs uppercase tracking-[0.25em] text-[#FAF3E0]">
+        <p className="text-xs uppercase tracking-[0.25em] text-[#F5EFE1]">
           Handlung
         </p>
 
-        <h2 className="mt-2 text-2xl font-semibold">Action Takers</h2>
+        <h2 className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
+          Action Takers
+        </h2>
 
-        <p className="mt-2 text-sm leading-6 text-[#A3A3A3]">
+        <p className="mt-2 text-sm leading-6 text-[#8E8E93]">
           These are the immediate financial moves based on this month&apos;s
           data and your active recovery plan.
         </p>
       </div>
 
       <div className="mb-5 grid gap-3 md:grid-cols-4">
-        <div className="rounded-2xl border border-[rgba(250,243,224,0.18)] bg-[#000000] p-4">
-          <p className="text-xs uppercase tracking-[0.22em] text-[#A3A3A3]">
-            Active Plan
-          </p>
-
-          <p className="mt-3 text-2xl font-semibold text-[#F8F8F8]">
-            {planName.trim() || "No Plan"}
-          </p>
-        </div>
-
-        <div className="rounded-2xl border border-[rgba(250,243,224,0.18)] bg-[#000000] p-4">
-          <p className="text-xs uppercase tracking-[0.22em] text-[#A3A3A3]">
-            Debt Target
-          </p>
-
-          <p className="mt-3 text-2xl font-semibold text-[#F8F8F8]">
-            {formatMoney(cleanDebtPayoff)}
-          </p>
-        </div>
-
-        <div className="rounded-2xl border border-[rgba(250,243,224,0.18)] bg-[#000000] p-4">
-          <p className="text-xs uppercase tracking-[0.22em] text-[#A3A3A3]">
-            Savings Target
-          </p>
-
-          <p className="mt-3 text-2xl font-semibold text-[#F8F8F8]">
-            {formatMoney(cleanSavingsTarget)}
-          </p>
-        </div>
-
-        <div className="rounded-2xl border border-[rgba(250,243,224,0.18)] bg-[#000000] p-4">
-          <p className="text-xs uppercase tracking-[0.22em] text-[#A3A3A3]">
-            Safe Remaining
-          </p>
-
-          <p className="mt-3 text-2xl font-semibold text-[#FAF3E0]">
-            {formatMoney(safeRemainingSpend)}
-          </p>
-        </div>
+        <PlanMetric label="Active Plan" value={planName.trim() || "No Plan"} />
+        <PlanMetric label="Debt Target" value={formatMoney(cleanDebtPayoff)} />
+        <PlanMetric
+          label="Savings Target"
+          value={formatMoney(cleanSavingsTarget)}
+        />
+        <PlanMetric
+          label="Safe Remaining"
+          value={formatMoney(safeRemainingSpend)}
+          highlight
+        />
       </div>
 
-      <div className="mb-5 rounded-2xl border border-[rgba(250,243,224,0.18)] bg-[#000000] p-4">
+      <div className="mb-5 rounded-2xl border border-[rgba(245,245,247,0.12)] bg-[#000000] p-4">
         <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-[#FAF3E0]">
+            <p className="text-xs uppercase tracking-[0.22em] text-[#F5EFE1]">
               Fortschritt
             </p>
 
-            <h3 className="mt-2 text-xl font-semibold text-[#F8F8F8]">
+            <h3 className="mt-2 text-xl font-semibold tracking-[-0.04em]">
               Mission Progress
             </h3>
           </div>
 
           <button
             onClick={onGoRecovery}
-            className="rounded-full border border-[rgba(250,243,224,0.18)] px-4 py-2 text-xs uppercase tracking-[0.18em] text-[#FAF3E0] transition hover:border-[#FAF3E0]"
+            className="rounded-full border border-[rgba(245,245,247,0.18)] px-4 py-2 text-xs uppercase tracking-[0.18em] text-[#F5EFE1] transition hover:border-[#F5EFE1]"
           >
             Open Recovery
           </button>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-2xl border border-[rgba(250,243,224,0.18)] p-4">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-[#A3A3A3]">
-                  Debt Paid
-                </p>
+          <MissionCard
+            label="Debt Paid"
+            current={debtPaid}
+            target={cleanDebtPayoff}
+            progress={debtProgress}
+            remainingLabel="Remaining debt mission"
+            remaining={debtRemaining}
+          />
 
-                <p className="mt-2 text-2xl font-semibold text-[#F8F8F8]">
-                  {formatMoney(debtPaid)} / {formatMoney(cleanDebtPayoff)}
-                </p>
-              </div>
-
-              <p className="rounded-full border border-[rgba(250,243,224,0.18)] px-3 py-1 text-xs uppercase tracking-[0.16em] text-[#FAF3E0]">
-                {debtProgress.toFixed(1)}%
-              </p>
-            </div>
-
-            <div className="mt-4 h-2 overflow-hidden rounded-full bg-[rgba(250,243,224,0.10)]">
-              <div
-                className="h-full rounded-full bg-[#FAF3E0]"
-                style={{ width: `${debtProgress}%` }}
-              />
-            </div>
-
-            <p className="mt-3 text-sm text-[#A3A3A3]">
-              Remaining debt mission: {formatMoney(debtRemaining)}
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-[rgba(250,243,224,0.18)] p-4">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-[#A3A3A3]">
-                  Savings Added
-                </p>
-
-                <p className="mt-2 text-2xl font-semibold text-[#F8F8F8]">
-                  {formatMoney(savingsAdded)} /{" "}
-                  {formatMoney(cleanSavingsTarget)}
-                </p>
-              </div>
-
-              <p className="rounded-full border border-[rgba(250,243,224,0.18)] px-3 py-1 text-xs uppercase tracking-[0.16em] text-[#FAF3E0]">
-                {savingsProgress.toFixed(1)}%
-              </p>
-            </div>
-
-            <div className="mt-4 h-2 overflow-hidden rounded-full bg-[rgba(250,243,224,0.10)]">
-              <div
-                className="h-full rounded-full bg-[#FAF3E0]"
-                style={{ width: `${savingsProgress}%` }}
-              />
-            </div>
-
-            <p className="mt-3 text-sm text-[#A3A3A3]">
-              Remaining savings mission: {formatMoney(savingsRemaining)}
-            </p>
-          </div>
+          <MissionCard
+            label="Savings Added"
+            current={savingsAdded}
+            target={cleanSavingsTarget}
+            progress={savingsProgress}
+            remainingLabel="Remaining savings mission"
+            remaining={savingsRemaining}
+          />
         </div>
       </div>
 
       {safeRemainingSpend < 0 && totalIncome > 0 && (
-        <div className="mb-5 rounded-2xl border border-[#FAF3E0]/40 bg-[#FAF3E0]/10 p-4">
+        <div className="mb-5 rounded-2xl border border-[#F5EFE1]/40 bg-[#F5EFE1]/10 p-4">
           <div className="mb-4">
-            <p className="text-xs uppercase tracking-[0.22em] text-[#FAF3E0]">
+            <p className="text-xs uppercase tracking-[0.22em] text-[#F5EFE1]">
               Vorschlag
             </p>
 
-            <h3 className="mt-2 text-xl font-semibold text-[#F8F8F8]">
+            <h3 className="mt-2 text-xl font-semibold tracking-[-0.04em]">
               Plan Adjustment Suggestions
             </h3>
 
-            <p className="mt-2 text-sm leading-6 text-[#A3A3A3]">
+            <p className="mt-2 text-sm leading-6 text-[#8E8E93]">
               Your current recovery plan exceeds available cashflow by{" "}
               {formatMoney(planShortfall)}. These are possible adjustment paths.
             </p>
           </div>
 
           <div className="grid gap-3 md:grid-cols-2">
-            <div className="rounded-2xl border border-[rgba(250,243,224,0.18)] bg-[#000000] p-4">
-              <p className="text-sm font-semibold text-[#F8F8F8]">
-                Option A · Fit the debt target
-              </p>
+            <SuggestionCard
+              title="Option A · Fit the debt target"
+              body={
+                <>
+                  Keep savings at {formatMoney(cleanSavingsTarget)} and reduce
+                  this month&apos;s debt payoff target to{" "}
+                  {formatMoney(affordableDebtTarget)}.
+                </>
+              }
+              buttonLabel="Apply Option A"
+              onClick={() =>
+                onApplyPlanAdjustment(
+                  affordableDebtTarget,
+                  cleanSavingsTarget
+                )
+              }
+            />
 
-              <p className="mt-2 text-sm leading-6 text-[#A3A3A3]">
-                Keep savings at {formatMoney(cleanSavingsTarget)}{" "}
-                and reduce this month&apos;s debt payoff target to{" "}
-                {formatMoney(affordableDebtTarget)}.
-              </p>
+            <SuggestionCard
+              title="Option B · Fit the savings target"
+              body={
+                <>
+                  Keep debt payoff at {formatMoney(cleanDebtPayoff)} and reduce
+                  this month&apos;s savings target to{" "}
+                  {formatMoney(affordableSavingsTarget)}.
+                </>
+              }
+              buttonLabel="Apply Option B"
+              onClick={() =>
+                onApplyPlanAdjustment(
+                  cleanDebtPayoff,
+                  affordableSavingsTarget
+                )
+              }
+            />
 
-              <button
-                onClick={() =>
-                  onApplyPlanAdjustment(
-                    affordableDebtTarget,
-                    cleanSavingsTarget
-                  )
-                }
-                className="mt-4 rounded-full border border-[#FAF3E0] px-4 py-2 text-xs uppercase tracking-[0.18em] text-[#FAF3E0] transition hover:bg-[#FAF3E0] hover:text-[#000000]"
-              >
-                Apply Option A
-              </button>
-            </div>
+            <SuggestionCard
+              title="Option C · Increase income"
+              body={
+                <>
+                  Keep the plan unchanged and find an additional{" "}
+                  {formatMoney(incomeNeeded)} this month.
+                </>
+              }
+              buttonLabel="Add Income"
+              onClick={onGoTransactions}
+            />
 
-            <div className="rounded-2xl border border-[rgba(250,243,224,0.18)] bg-[#000000] p-4">
-              <p className="text-sm font-semibold text-[#F8F8F8]">
-                Option B · Fit the savings target
-              </p>
-
-              <p className="mt-2 text-sm leading-6 text-[#A3A3A3]">
-                Keep debt payoff at {formatMoney(cleanDebtPayoff)}{" "}
-                and reduce this month&apos;s savings target to{" "}
-                {formatMoney(affordableSavingsTarget)}.
-              </p>
-
-              <button
-                onClick={() =>
-                  onApplyPlanAdjustment(
-                    cleanDebtPayoff,
-                    affordableSavingsTarget
-                  )
-                }
-                className="mt-4 rounded-full border border-[#FAF3E0] px-4 py-2 text-xs uppercase tracking-[0.18em] text-[#FAF3E0] transition hover:bg-[#FAF3E0] hover:text-[#000000]"
-              >
-                Apply Option B
-              </button>
-            </div>
-
-            <div className="rounded-2xl border border-[rgba(250,243,224,0.18)] bg-[#000000] p-4">
-              <p className="text-sm font-semibold text-[#F8F8F8]">
-                Option C · Increase income
-              </p>
-
-              <p className="mt-2 text-sm leading-6 text-[#A3A3A3]">
-                Keep the plan unchanged and find an additional{" "}
-                {formatMoney(incomeNeeded)} this month.
-              </p>
-
-              <button
-                onClick={onGoTransactions}
-                className="mt-4 rounded-full border border-[#FAF3E0] px-4 py-2 text-xs uppercase tracking-[0.18em] text-[#FAF3E0] transition hover:bg-[#FAF3E0] hover:text-[#000000]"
-              >
-                Add Income
-              </button>
-            </div>
-
-            <div className="rounded-2xl border border-[rgba(250,243,224,0.18)] bg-[#000000] p-4">
-              <p className="text-sm font-semibold text-[#F8F8F8]">
-                Option D · Extend the timeline
-              </p>
-
-              <p className="mt-2 text-sm leading-6 text-[#A3A3A3]">
-                Keep the same total goal, but split the shortfall across another
-                month instead of forcing an unrealistic current-month target.
-              </p>
-
-              <button
-                onClick={onGoRecovery}
-                className="mt-4 rounded-full border border-[#FAF3E0] px-4 py-2 text-xs uppercase tracking-[0.18em] text-[#FAF3E0] transition hover:bg-[#FAF3E0] hover:text-[#000000]"
-              >
-                Review Timeline
-              </button>
-            </div>
+            <SuggestionCard
+              title="Option D · Extend the timeline"
+              body={
+                <>
+                  Keep the same total goal, but split the shortfall across
+                  another month instead of forcing an unrealistic current-month
+                  target.
+                </>
+              }
+              buttonLabel="Review Timeline"
+              onClick={onGoRecovery}
+            />
           </div>
         </div>
       )}
@@ -607,15 +522,15 @@ function ActionDashboard({
         {actionItems.map((item) => (
           <div
             key={item.title}
-            className="rounded-2xl border border-[rgba(250,243,224,0.18)] bg-[#000000] p-4"
+            className="rounded-2xl border border-[rgba(245,245,247,0.12)] bg-[#000000] p-4"
           >
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-[#F8F8F8]">
+                <h3 className="text-lg font-semibold tracking-[-0.035em]">
                   {item.title}
                 </h3>
 
-                <p className="mt-2 text-sm leading-6 text-[#A3A3A3]">
+                <p className="mt-2 text-sm leading-6 text-[#8E8E93]">
                   {item.description}
                 </p>
               </div>
@@ -623,7 +538,7 @@ function ActionDashboard({
               {item.action && (
                 <button
                   onClick={onGoRecovery}
-                  className="rounded-full border border-[#FAF3E0] px-4 py-2 text-xs uppercase tracking-[0.18em] text-[#FAF3E0] transition hover:bg-[#FAF3E0] hover:text-[#000000]"
+                  className="rounded-full border border-[#F5EFE1] px-4 py-2 text-xs uppercase tracking-[0.18em] text-[#F5EFE1] transition hover:bg-[#F5EFE1] hover:text-[#000000]"
                 >
                   {item.action}
                 </button>
@@ -633,5 +548,105 @@ function ActionDashboard({
         ))}
       </div>
     </section>
+  );
+}
+
+function PlanMetric({
+  label,
+  value,
+  highlight = false,
+}: {
+  label: string;
+  value: string;
+  highlight?: boolean;
+}) {
+  return (
+    <div className="rounded-2xl border border-[rgba(245,245,247,0.12)] bg-[#000000] p-4">
+      <p className="text-xs uppercase tracking-[0.18em] text-[#8E8E93]">
+        {label}
+      </p>
+
+      <p
+        className={`mt-3 text-2xl font-semibold tracking-[-0.045em] ${
+          highlight ? "text-[#F5EFE1]" : "text-[#F5F5F7]"
+        }`}
+      >
+        {value}
+      </p>
+    </div>
+  );
+}
+
+function MissionCard({
+  label,
+  current,
+  target,
+  progress,
+  remainingLabel,
+  remaining,
+}: {
+  label: string;
+  current: number;
+  target: number;
+  progress: number;
+  remainingLabel: string;
+  remaining: number;
+}) {
+  return (
+    <div className="rounded-2xl border border-[rgba(245,245,247,0.12)] p-4">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-xs uppercase tracking-[0.18em] text-[#8E8E93]">
+            {label}
+          </p>
+
+          <p className="mt-2 text-2xl font-semibold tracking-[-0.045em]">
+            {formatMoney(current)} / {formatMoney(target)}
+          </p>
+        </div>
+
+        <p className="rounded-full border border-[rgba(245,245,247,0.18)] px-3 py-1 text-xs uppercase tracking-[0.16em] text-[#F5EFE1]">
+          {progress.toFixed(1)}%
+        </p>
+      </div>
+
+      <div className="mt-4 h-2 overflow-hidden rounded-full bg-[rgba(245,245,247,0.10)]">
+        <div
+          className="h-full rounded-full bg-[#F5EFE1]"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+
+      <p className="mt-3 text-sm text-[#8E8E93]">
+        {remainingLabel}: {formatMoney(remaining)}
+      </p>
+    </div>
+  );
+}
+
+function SuggestionCard({
+  title,
+  body,
+  buttonLabel,
+  onClick,
+}: {
+  title: string;
+  body: React.ReactNode;
+  buttonLabel: string;
+  onClick: () => void;
+}) {
+  return (
+    <div className="rounded-2xl border border-[rgba(245,245,247,0.12)] bg-[#000000] p-4">
+      <p className="text-sm font-semibold tracking-[-0.025em]">{title}</p>
+
+      <p className="mt-2 text-sm leading-6 text-[#8E8E93]">{body}</p>
+
+      <button
+        onClick={onClick}
+        className="mt-4 rounded-full border border-[#F5EFE1] px-4 py-2 text-xs uppercase tracking-[0.18em] text-[#F5EFE1] transition hover:bg-[#F5EFE1] hover:text-[#000000]"
+      >
+        {buttonLabel}
+      </button>
+    </div>
   );
 }
