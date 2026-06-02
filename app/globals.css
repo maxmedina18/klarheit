@@ -88,6 +88,22 @@ textarea {
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
   }
+
+  .ios-safe-top {
+    padding-top: max(env(safe-area-inset-top), 28px);
+  }
+
+  .ios-safe-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 24px);
+  }
+}
+
+.ios-safe-top {
+  padding-top: 28px;
+}
+
+.ios-safe-bottom {
+  padding-bottom: 24px;
 }
 
 /* Cleaner selection */

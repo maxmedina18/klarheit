@@ -75,8 +75,8 @@ export default function Navigation({ activeView, onViewChange }: Props) {
         </div>
       </nav>
 
-      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[rgba(245,245,247,0.12)] bg-[#000000]/88 px-3 pb-[calc(env(safe-area-inset-bottom)+10px)] pt-2 backdrop-blur-2xl md:hidden">
-        <div className="mx-auto grid max-w-md grid-cols-5 gap-1 rounded-[28px] border border-[rgba(245,245,247,0.10)] bg-[#050505] p-1">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[rgba(245,245,247,0.12)] bg-[#000000]/88 px-3 pb-[calc(env(safe-area-inset-bottom)+8px)] pt-2 backdrop-blur-2xl md:hidden">
+        <div className="mx-auto grid max-w-md grid-cols-5 gap-1 rounded-[26px] border border-[rgba(245,245,247,0.10)] bg-[#050505] p-1">
           {views.map((view) => {
             const isActive = activeView === view.id;
 
