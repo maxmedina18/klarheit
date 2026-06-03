@@ -25,6 +25,7 @@ import MonthSelector from "./MonthSelector";
 import Navigation, { AppView } from "./Navigation";
 import RecoveryProgress from "./RecoveryProgress";
 import CardTracker from "./CardTracker";
+import CardPressure from "./CardPressure";
 
 export default function Dashboard() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -143,7 +144,7 @@ export default function Dashboard() {
         {activeView === "dashboard" && (
           <div className="flex flex-col gap-6">
             <SummaryCards transactions={monthlyTransactions} />
-
+            <CardPressure onGoCards={() => setActiveView("cards")} />
             <ActionDashboard
               transactions={monthlyTransactions}
               planName={planName}
