@@ -26,6 +26,7 @@ import Navigation, { AppView } from "./Navigation";
 import RecoveryProgress from "./RecoveryProgress";
 import CardTracker from "./CardTracker";
 import CardPressure from "./CardPressure";
+import RecurringTracker from "./RecurringTracker";
 
 export default function Dashboard() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -131,8 +132,9 @@ export default function Dashboard() {
           </h1>
 
           <p className="mt-4 max-w-2xl text-[15px] leading-6 text-[#8E8E93] md:text-base">
-            Track income, expenses, card usage, spending ratios, savings rate,
-            budgets, and recovery decisions with ruthless clarity.
+            Track income, expenses, card usage, recurring obligations, spending
+            ratios, savings rate, budgets, and recovery decisions with ruthless
+            clarity.
           </p>
         </header>
 
@@ -144,7 +146,9 @@ export default function Dashboard() {
         {activeView === "dashboard" && (
           <div className="flex flex-col gap-6">
             <SummaryCards transactions={monthlyTransactions} />
+
             <CardPressure onGoCards={() => setActiveView("cards")} />
+
             <ActionDashboard
               transactions={monthlyTransactions}
               planName={planName}
@@ -179,6 +183,8 @@ export default function Dashboard() {
         )}
 
         {activeView === "cards" && <CardTracker />}
+
+        {activeView === "recurring" && <RecurringTracker />}
 
         {activeView === "recovery" && (
           <div className="flex flex-col gap-6">

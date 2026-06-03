@@ -5,6 +5,7 @@ export type AppView =
   | "transactions"
   | "budgets"
   | "cards"
+  | "recurring"
   | "recovery"
   | "analysis";
 
@@ -33,6 +34,11 @@ const views: { id: AppView; label: string; german: string }[] = [
     id: "cards",
     label: "Cards",
     german: "Karten",
+  },
+  {
+    id: "recurring",
+    label: "Repeat",
+    german: "Zyklus",
   },
   {
     id: "recovery",
@@ -81,8 +87,8 @@ export default function Navigation({ activeView, onViewChange }: Props) {
         </div>
       </nav>
 
-      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[rgba(245,245,247,0.12)] bg-[#000000]/88 px-3 pb-[calc(env(safe-area-inset-bottom)+8px)] pt-2 backdrop-blur-2xl md:hidden">
-        <div className="mx-auto grid max-w-md grid-cols-6 gap-1 rounded-[26px] border border-[rgba(245,245,247,0.10)] bg-[#050505] p-1">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[rgba(245,245,247,0.12)] bg-[#000000]/88 px-2 pb-[calc(env(safe-area-inset-bottom)+8px)] pt-2 backdrop-blur-2xl md:hidden">
+        <div className="no-scrollbar mx-auto flex max-w-md gap-1 overflow-x-auto rounded-[26px] border border-[rgba(245,245,247,0.10)] bg-[#050505] p-1">
           {views.map((view) => {
             const isActive = activeView === view.id;
 
@@ -90,7 +96,7 @@ export default function Navigation({ activeView, onViewChange }: Props) {
               <button
                 key={view.id}
                 onClick={() => onViewChange(view.id)}
-                className={`rounded-[20px] px-1.5 py-2 text-center transition ${
+                className={`min-w-[58px] rounded-[20px] px-2 py-2 text-center transition ${
                   isActive
                     ? "bg-[#F5EFE1] text-[#000000]"
                     : "text-[#8E8E93] hover:text-[#F5F5F7]"
