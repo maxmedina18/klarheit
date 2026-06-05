@@ -27,6 +27,8 @@ import RecoveryProgress from "./RecoveryProgress";
 import CardTracker from "./CardTracker";
 import CardPressure from "./CardPressure";
 import RecurringTracker from "./RecurringTracker";
+import RecurringPressure from "./RecurringPressure";
+import OperatingReality from "./OperatingReality";
 
 export default function Dashboard() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -144,12 +146,23 @@ export default function Dashboard() {
         />
 
         {activeView === "dashboard" && (
-          <div className="flex flex-col gap-6">
-            <SummaryCards transactions={monthlyTransactions} />
+  <div className="flex flex-col gap-6">
+    <SummaryCards transactions={monthlyTransactions} />
 
-            <CardPressure onGoCards={() => setActiveView("cards")} />
+    <OperatingReality
+      transactions={monthlyTransactions}
+      plannedDebtPayoff={plannedDebtPayoff}
+      savingsTarget={savingsTarget}
+      onGoCards={() => setActiveView("cards")}
+      onGoRecurring={() => setActiveView("recurring")}
+      onGoRecovery={() => setActiveView("recovery")}
+    />
 
-            <ActionDashboard
+    <CardPressure onGoCards={() => setActiveView("cards")} />
+
+    <RecurringPressure onGoRecurring={() => setActiveView("recurring")} />
+
+    <ActionDashboard
               transactions={monthlyTransactions}
               planName={planName}
               plannedDebtPayoff={plannedDebtPayoff}
@@ -158,7 +171,7 @@ export default function Dashboard() {
               onGoTransactions={() => setActiveView("transactions")}
               onApplyPlanAdjustment={applyPlanAdjustment}
             />
-          </div>
+            </div>
         )}
 
         {activeView === "transactions" && (
