@@ -31,6 +31,7 @@ import RecurringPressure from "./RecurringPressure";
 import OperatingReality from "./OperatingReality";
 import RecoveryTimeline from "./RecoveryTimeline";
 import NetWorthTracker from "./NetWorthTracker";
+import NetWorthTrajectory from "./NetWorthTrajectory";
 
 export default function Dashboard() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -201,7 +202,16 @@ export default function Dashboard() {
 
         {activeView === "recurring" && <RecurringTracker />}
 
-{activeView === "worth" && <NetWorthTracker />}
+{activeView === "worth" && (
+  <div className="flex flex-col gap-6">
+    <NetWorthTracker />
+
+    <NetWorthTrajectory
+      plannedDebtPayoff={plannedDebtPayoff}
+      savingsTarget={savingsTarget}
+    />
+  </div>
+)}
 
 {activeView === "recovery" && (
   <div className="flex flex-col gap-6">
