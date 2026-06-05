@@ -29,6 +29,7 @@ import CardPressure from "./CardPressure";
 import RecurringTracker from "./RecurringTracker";
 import RecurringPressure from "./RecurringPressure";
 import OperatingReality from "./OperatingReality";
+import RecoveryTimeline from "./RecoveryTimeline";
 
 export default function Dashboard() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -200,29 +201,34 @@ export default function Dashboard() {
         {activeView === "recurring" && <RecurringTracker />}
 
         {activeView === "recovery" && (
-          <div className="flex flex-col gap-6">
-            <div className="grid gap-6 lg:grid-cols-2">
-              <SafeSpending
-                transactions={monthlyTransactions}
-                planName={planName}
-                plannedDebtPayoff={plannedDebtPayoff}
-                savingsTarget={savingsTarget}
-                onPlanNameChange={setPlanName}
-                onPlannedDebtPayoffChange={setPlannedDebtPayoff}
-                onSavingsTargetChange={setSavingsTarget}
-                onSavePlan={saveRecoveryPlan}
-              />
+  <div className="flex flex-col gap-6">
+    <div className="grid gap-6 lg:grid-cols-2">
+      <SafeSpending
+        transactions={monthlyTransactions}
+        planName={planName}
+        plannedDebtPayoff={plannedDebtPayoff}
+        savingsTarget={savingsTarget}
+        onPlanNameChange={setPlanName}
+        onPlannedDebtPayoffChange={setPlannedDebtPayoff}
+        onSavingsTargetChange={setSavingsTarget}
+        onSavePlan={saveRecoveryPlan}
+      />
 
-              <PayoffProjection />
-            </div>
+      <PayoffProjection />
+    </div>
 
-            <RecoveryProgress
-              transactions={monthlyTransactions}
-              plannedDebtPayoff={plannedDebtPayoff}
-              savingsTarget={savingsTarget}
-            />
-          </div>
-        )}
+    <RecoveryProgress
+      transactions={monthlyTransactions}
+      plannedDebtPayoff={plannedDebtPayoff}
+      savingsTarget={savingsTarget}
+    />
+
+    <RecoveryTimeline
+      plannedDebtPayoff={plannedDebtPayoff}
+      savingsTarget={savingsTarget}
+    />
+  </div>
+)}
 
         {activeView === "analysis" && (
           <div className="flex flex-col gap-6">
