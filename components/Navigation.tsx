@@ -6,6 +6,7 @@ export type AppView =
   | "budgets"
   | "cards"
   | "recurring"
+  | "worth"
   | "recovery"
   | "analysis";
 
@@ -39,6 +40,11 @@ const views: { id: AppView; label: string; german: string }[] = [
     id: "recurring",
     label: "Repeat",
     german: "Zyklus",
+  },
+  {
+    id: "worth",
+    label: "Worth",
+    german: "Vermögen",
   },
   {
     id: "recovery",

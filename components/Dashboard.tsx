@@ -30,6 +30,7 @@ import RecurringTracker from "./RecurringTracker";
 import RecurringPressure from "./RecurringPressure";
 import OperatingReality from "./OperatingReality";
 import RecoveryTimeline from "./RecoveryTimeline";
+import NetWorthTracker from "./NetWorthTracker";
 
 export default function Dashboard() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -200,7 +201,9 @@ export default function Dashboard() {
 
         {activeView === "recurring" && <RecurringTracker />}
 
-        {activeView === "recovery" && (
+{activeView === "worth" && <NetWorthTracker />}
+
+{activeView === "recovery" && (
   <div className="flex flex-col gap-6">
     <div className="grid gap-6 lg:grid-cols-2">
       <SafeSpending
